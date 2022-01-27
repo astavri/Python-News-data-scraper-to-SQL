@@ -1,0 +1,40 @@
+##Credit for https://github.com/kotartemiy for making this great scraper tool
+##Goal, loop on loop
+##First loop, searchword
+##Second loop, Date range
+##Third Loop, count LIKE % keywords in titles likely in SQL
+##SQL table parameters: ID(int), Title, Date Published, Search Keyword
+##Eventually possibly ranking in search as a parameter (1-100)
+
+import mysql.connector
+from datetime import datetime
+from datetime import timedelta
+from pygooglenews import GoogleNews
+
+mydb = mysql.connector.connect(
+  host="localhost", user="root", password="Hello555", database="pooptest")
+mycursor = mydb.cursor()
+
+
+
+gn = GoogleNews()
+start_date = datetime(2022, 1, 11)
+min_date = start_date
+max_date = datetime(2022, 1, 15)
+searchword = 'violence'
+
+
+while  min_date != max_date:
+    min1_date = min_date + timedelta(days=1)
+    print("From:"+min_date.strftime('%Y-%m-%d'));
+    print("To:"+min1_date.strftime('%Y-%m-%d'));
+    print("Keyword:"+searchword);
+    search = gn.search(searchword, from_=min_date.strftime('%Y-%m-%d'), to_=min1_date.strftime('%Y-%m-%d'))
+
+    for item in search['entries']:
+        print(item['title'])
+        print(item["published"])
+        #print(item['link'])
+
+
+    min_date = min_date + timedelta(days=1)
