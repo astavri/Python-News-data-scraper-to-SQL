@@ -12,7 +12,7 @@ from datetime import timedelta
 from pygooglenews import GoogleNews
 
 mydb = mysql.connector.connect(
-  host="localhost", user="root", password="Hello555", database="pooptest")
+  host="localhost", user="root", password="XXXXXXXX", database="XXXXXXXXX")
 mycursor = mydb.cursor()
 
 
