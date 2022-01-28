@@ -14,21 +14,21 @@ mydb = mysql.connector.connect(
     host="localhost",
     user="root",
     password="XXXXXXX",
-    database="crimenewsdatabase") #Database Name in SQL
+    database="stocks") #Database Name in SQL
 
 gn = GoogleNews()
 cursor = mydb.cursor()
 
-add_article =   ("INSERT IGNORE INTO crimetable"        #Table Name in SQL: easier to create table in mySQL, "IGNORE" ignores errors from SQL which can stall due to title char limits or other things.     
+add_article =   ("INSERT IGNORE INTO articletitles"        #Table Name in SQL: easier to create table in mySQL, "IGNORE" ignores errors from SQL which can stall due to title char limits or other things.     
                 "(title, published, search_keyword)"    #Must match table parameters in SQL
-                "VALUES (%s, %s, %s)")                  #Must match int or var in SQL
+                "VALUES (%s, %s, %s)")                  #Must match int or str in SQL
 
-start_date = datetime(2021, 1, 23)                      #This range here is important because Google only limits 100 results per search.
-min_date = start_date                                   #looping it instead of using from_ and to_ feature is a workaround for this. they can be combined
+start_date = datetime(2021, 1, 23)                      #The range here is important because Google only limits 100 results per search.
+min_date = start_date                                   #looping it instead of using from_ and to_ feature is a workaround for this.
 max_date = datetime(2021, 2, 23)
 
 #You can enter any of keywords you want or remove in the list
-searchlist = ["violence", "crime"]
+searchlist = ["stocks", "bonds"]
 i = 0;
 sizeofList = len(searchlist)
 
