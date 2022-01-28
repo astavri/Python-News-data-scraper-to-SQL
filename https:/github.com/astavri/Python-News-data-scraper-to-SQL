@@ -1,4 +1,11 @@
-#Shoutout to kotartemiy for pygooglenews
+# Shoutout to kotartemiy for pygooglenews
+# this whole project is based majority based on him and his partners' work, otherwise id have a LOT more work to reach my goal in the sake of learning purposes
+# I had this idea to learn python and SQL better. Scrape news headlines, export to SQL, sift/count/analyze data in SQL or Excel based on header keywords.
+# make another table set based on other set of data that has daily/weekly data, such as gun purchases, stocks, violence, crime
+# correlate it with this factor, possibly export results to Excel for further analysis.
+# i do more explaination than necessary using the mostly so I can learn and remember the methods used, so apologies if its too much, hopefully it is beneficial
+
+
 import mysql.connector
 from datetime import datetime, timedelta
 from pygooglenews import GoogleNews
@@ -7,12 +14,12 @@ mydb = mysql.connector.connect(
     host="localhost",
     user="root",
     password="XXXXXXX",
-    database="pooptest1") #Database Name in SQL
+    database="crimenewsdatabase") #Database Name in SQL
 
 gn = GoogleNews()
 cursor = mydb.cursor()
 
-add_article =   ("INSERT INTO pooptest2"                #Table Name in SQL: easier to create table in mySQL              
+add_article =   ("INSERT IGNORE INTO crimetable"        #Table Name in SQL: easier to create table in mySQL, "IGNORE" ignores errors from SQL which can stall due to title char limits or other things.     
                 "(title, published, search_keyword)"    #Must match table parameters in SQL
                 "VALUES (%s, %s, %s)")                  #Must match int or var in SQL
 
