@@ -1,40 +1,47 @@
-##Credit for https://github.com/kotartemiy for making this great scraper tool
-##Goal, loop on loop
-##First loop, searchword
-##Second loop, Date range
-##Third Loop, count LIKE % keywords in titles likely in SQL
-##SQL table parameters: ID(int), Title, Date Published, Search Keyword
-##Eventually possibly ranking in search as a parameter (1-100)
-
+#Shoutout to kotartemiy for pygooglenews
 import mysql.connector
-from datetime import datetime
-from datetime import timedelta
+from datetime import datetime, timedelta
 from pygooglenews import GoogleNews
 
 mydb = mysql.connector.connect(
-  host="localhost", user="root", password="XXXXXXXX", database="XXXXXXXXX")
-mycursor = mydb.cursor()
-
-
+    host="localhost",
+    user="root",
+    password="XXXXXXX",
+    database="pooptest1") #Database Name in SQL
 
 gn = GoogleNews()
-start_date = datetime(2022, 1, 11)
-min_date = start_date
-max_date = datetime(2022, 1, 15)
-searchword = 'violence'
+cursor = mydb.cursor()
 
+add_article =   ("INSERT INTO pooptest2"                #Table Name in SQL: easier to create table in mySQL              
+                "(title, published, search_keyword)"    #Must match table parameters in SQL
+                "VALUES (%s, %s, %s)")                  #Must match int or var in SQL
 
-while  min_date != max_date:
-    min1_date = min_date + timedelta(days=1)
-    print("From:"+min_date.strftime('%Y-%m-%d'));
-    print("To:"+min1_date.strftime('%Y-%m-%d'));
-    print("Keyword:"+searchword);
-    search = gn.search(searchword, from_=min_date.strftime('%Y-%m-%d'), to_=min1_date.strftime('%Y-%m-%d'))
+start_date = datetime(2021, 1, 23)                      #This range here is important because Google only limits 100 results per search.
+min_date = start_date                                   #looping it instead of using from_ and to_ feature is a workaround for this. they can be combined
+max_date = datetime(2021, 2, 23)
 
-    for item in search['entries']:
-        print(item['title'])
-        print(item["published"])
-        #print(item['link'])
+#You can enter any of keywords you want or remove in the list
+searchlist = ["violence", "crime"]
+i = 0;
+sizeofList = len(searchlist)
 
+while i < sizeofList:                                   #WHile loop sets a condition to sort through list of search keywords
+    while  min_date != max_date:                        #While loop conditions set to run dates min-max, adding a day for each search query
+        min1_date = min_date + timedelta(days=1)        #this step is added because using only (from_ 1/1/2000, to_ 1/1/2000) shows no results
+        print("From:"+min_date.strftime('%Y-%m-%d'));   #ie. it appears you cannot search results from pygooglenews from one specific day in time.
+        print("To:"+min1_date.strftime('%Y-%m-%d'));
+        search = gn.search(searchlist[i], from_=min_date.strftime('%Y-%m-%d'), to_=min1_date.strftime('%Y-%m-%d'))
 
-    min_date = min_date + timedelta(days=1)
+        for item in search['entries']:
+            print(item['title']);
+            #print(item["published"]);
+            data_article = (item['title'], item["published"], searchlist[i]);       #mysql.connector
+            cursor.execute(add_article, data_article);                              #mysql. connecor executes by using cursor
+            #print(item['link']) #should we add links to the SQL?
+
+            mydb.commit()
+
+        min_date = min_date + timedelta(days=1)
+    else: min_date = start_date                         #this is to reset date for this keyword otherwise searchword loop ends due to min_date=max from the first search keyword
+                                                        
+    i += 1                                              #adds count to search the next keyword
