@@ -8,7 +8,7 @@ https://github.com/kotartemiy/pygooglenews
 
 
 
-News articles are extracted from Google news only.
+The articles details are extracted only from Google News.
 
 
 ![alt text](https://raw.githubusercontent.com/astavri/Python-News-data-scraper-to-SQL/main/Python_to_%20SQL.png)
