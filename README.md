@@ -7,7 +7,7 @@ All the webscraping backend portion is from pygooglenews, thanks kotartemiy!
 https://github.com/kotartemiy/pygooglenews
 
 
-##What you need to do:
+
 
 
 **1-create mySQL Database and Table.**
