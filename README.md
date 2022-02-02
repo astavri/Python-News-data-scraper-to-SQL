@@ -7,33 +7,46 @@ All the webscraping backend portion is from pygooglenews, thanks kotartemiy!
 https://github.com/kotartemiy/pygooglenews
 
 
-What you need to do:
+##What you need to do:
+
+
 **1-create mySQL Database and Table.**
-CREATE DATABASE database123 
-CREATE TABLE table123(
-    title VARCHAR (255),
-    published VARCHAR (255),
-    search_keyword VARCHAR (255));
+
+    CREATE DATABASE database123 
+    CREATE TABLE table123(
+        title VARCHAR (255),
+        published VARCHAR (255),
+        search_keyword VARCHAR (255));
+
 
 
 **2-Match it to the mysql.connector script below:**
-add_article =   ("INSERT IGNORE INTO table123
-    "(title, published, search_keyword)" 
-    "VALUES (%s, %s, %s)")               
+
+    add_article =   ("INSERT IGNORE INTO table123
+        "(title, published, search_keyword)" 
+        "VALUES (%s, %s, %s)")               
   
+
 
 **3-Type in your entries manually each time in the GUI or enter your values in the string 
     so the GUI recognizes it everytime you run the script**
-guivalues = ['', '2022-01-25', '2022-01-30', "localhost", "root", 'PASSWORD', 'database123', 'table123'];
+    
+    guivalues = ['', '2022-01-25', '2022-01-30', "localhost", "root", 'PASSWORD', 'database123', 'table123'];
 
     
+    
+    
 **4- Run Script**
+
     You may search multiple keywords automatically by putting a comma after each entry
     Example:
     New York, California, Iowa, Florida
 
 **5- Check mySQL. Use the data as you wish.**
+
     SELECT * FROM table123
+
+
 
 
 
