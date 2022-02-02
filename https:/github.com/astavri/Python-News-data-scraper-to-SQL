@@ -1,12 +1,32 @@
-
-
 import PySimpleGUI as sg
 import mysql.connector
 from datetime import datetime, timedelta
 from pygooglenews import GoogleNews
+import warnings
+warnings.filterwarnings(
+    "ignore",
+    message="The localize method is no longer necessary, as this time zone supports the fold attribute",
+)
+
 
 guivalues = ['', '2022-01-25', '2022-01-30', "localhost", "root", 'PASSWORD', 'YourDATABASE', 'YourTABLE'];
 
+
+sg.theme('Dark2')
+layout = [
+    [sg.Text('Enter multiple Keywords, comma to separate')],
+    [sg.Text('Keywords', size=(20, 1)), sg.InputText()],
+    [sg.Text('Start Date YYYY-MM-DD: ', size=(20, 1)), sg.InputText(guivalues[1])],
+    [sg.Text('End Date YYYY-MM-DD: ', size=(20, 1)), sg.InputText(guivalues[2])],
+    [sg.Text('Host (usually localhost): ', size=(20, 1)), sg.InputText(guivalues[3])],
+    [sg.Text('User (usually root): ', size=(20, 1)), sg.InputText(guivalues[4])],
+    [sg.Text('mySQL password: ', size=(20, 1)), sg.InputText(guivalues[5])],
+    [sg.Text('Database: ', size=(20, 1)), sg.InputText(guivalues[6])],
+    [sg.Text('Table: ', size=(20, 1)), sg.InputText(guivalues[7])],
+    [sg.Output(size=(70, 15))],
+    [sg.Button('Extract', bind_return_key=True ), sg.Button('Close')]
+]
+window = sg.Window('Python to SQL', layout)
 
 while True:
     event, guivalues = window.read()
@@ -65,3 +85,4 @@ while True:
 
             i += 1
         else: print("Extract Complete!")
+
