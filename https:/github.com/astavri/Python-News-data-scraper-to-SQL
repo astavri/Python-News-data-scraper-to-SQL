@@ -1,8 +1,3 @@
-# Most of the backend is kotartemiy from making pygooglenews, check out his work
-# I had this idea to learn python and SQL better. Scrape news headlines, export to SQL, sift/count/analyze data in SQL or Excel based on title keywords.
-# make another table set based on other set of data that has daily/weekly data, such as gun purchases, stocks, violence, crime
-# correlate it with this factor, possibly export results to Excel for further analysis.
-# All for learning purposes if you want a database quick and simple. Still getting a hang of pysimplegui
 
 
 import PySimpleGUI as sg
@@ -31,6 +26,7 @@ while True:
     event, guivalues = window.read()
     if event == 'Close':
         break
+        window.Close()
     if event == 'Extract':
 
         mydb = mysql.connector.connect(
@@ -80,5 +76,7 @@ while True:
             else: min_date = start_date
 
             i += 1
-
+            
+    window.read()
+    window.Close()
 
