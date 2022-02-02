@@ -1,54 +1,84 @@
-# Shoutout to kotartemiy for pygooglenews
-# this whole project is based majority based on him and his partners' work, otherwise id have a LOT more work to reach my goal in the sake of learning purposes
-# I had this idea to learn python and SQL better. Scrape news headlines, export to SQL, sift/count/analyze data in SQL or Excel based on header keywords.
+# Most of the backend is kotartemiy from making pygooglenews, check out his work
+# I had this idea to learn python and SQL better. Scrape news headlines, export to SQL, sift/count/analyze data in SQL or Excel based on title keywords.
 # make another table set based on other set of data that has daily/weekly data, such as gun purchases, stocks, violence, crime
 # correlate it with this factor, possibly export results to Excel for further analysis.
-# i do more explaination than necessary using the mostly so I can learn and remember the methods used, so apologies if its too much, hopefully it is beneficial
+# All for learning purposes if you want a database quick and simple. Still getting a hang of pysimplegui
 
 
+import PySimpleGUI as sg
 import mysql.connector
 from datetime import datetime, timedelta
 from pygooglenews import GoogleNews
 
-mydb = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="XXXXXXX",
-    database="stocks") #Database Name in SQL
+guivalues = ['', '2022-01-25', '2022-01-30', "localhost", "root", 'PASSWORD', 'pooptest1', 'stocks'];
 
-gn = GoogleNews()
-cursor = mydb.cursor()
+while True:
+    sg.theme('Dark2')
+    layout = [
+        [sg.Text('Enter multiple Keywords, comma to separate')],
+        [sg.Text('Keywords', size=(20, 1)), sg.InputText()],
+        [sg.Text('Start Date YYYY-MM-DD: ', size=(20, 1)), sg.InputText(guivalues[1])],
+        [sg.Text('End Date YYYY-MM-DD: ', size=(20, 1)), sg.InputText(guivalues[2])],
+        [sg.Text('Host (usually localhost): ', size=(20, 1)), sg.InputText(guivalues[3])],
+        [sg.Text('User (usually root): ', size=(20, 1)), sg.InputText(guivalues[4])],
+        [sg.Text('mySQL password: ', size=(20, 1)), sg.InputText(guivalues[5])],
+        [sg.Text('Database: ', size=(20, 1)), sg.InputText(guivalues[6])],
+        [sg.Text('Table: ', size=(20, 1)), sg.InputText(guivalues[7])],
+        [sg.Output(size=(70, 15))],
+        [sg.Button('Extract'), sg.Button('Close')]
+    ]
+    window = sg.Window('Python to SQL', layout)
+    event, guivalues = window.read()
+    if event == 'Close':
+        break
+    if event == 'Extract':
 
-add_article =   ("INSERT IGNORE INTO articletitles"        #Table Name in SQL: easier to create table in mySQL, "IGNORE" ignores errors from SQL which can stall due to title char limits or other things.     
-                "(title, published, search_keyword)"    #Must match table parameters in SQL
-                "VALUES (%s, %s, %s)")                  #Must match int or str in SQL
+        mydb = mysql.connector.connect(
+            host= guivalues[3],
+            user= guivalues[4],
+            password= guivalues[5],
+            database= guivalues[6]
+        )
 
-start_date = datetime(2021, 1, 23)                      #The range here is important because Google only limits 100 results per search.
-min_date = start_date                                   #looping it instead of using from_ and to_ feature is a workaround for this.
-max_date = datetime(2021, 2, 23)
+        gn = GoogleNews()
+        cursor = mydb.cursor()
+        add_article = ("INSERT IGNORE INTO ")
+        add_article1 = guivalues[7];
+        add_article2 = " (title, published, keyword, link) VALUES (%s, %s, %s, %s)"
 
-#You can enter any of keywords you want or remove in the list
-searchlist = ["stocks", "bonds"]
-i = 0;
-sizeofList = len(searchlist)
+        key1 = guivalues[0]
+        searchlist = key1.split(",")
 
-while i < sizeofList:                                   #WHile loop sets a condition to sort through list of search keywords
-    while  min_date != max_date:                        #While loop conditions set to run dates min-max, adding a day for each search query
-        min1_date = min_date + timedelta(days=1)        #this step is added because using only (from_ 1/1/2000, to_ 1/1/2000) shows no results
-        print("From:"+min_date.strftime('%Y-%m-%d'));   #ie. it appears you cannot search results from pygooglenews from one specific day in time.
-        print("To:"+min1_date.strftime('%Y-%m-%d'));
-        search = gn.search(searchlist[i], from_=min_date.strftime('%Y-%m-%d'), to_=min1_date.strftime('%Y-%m-%d'))
+        s_date = str(guivalues[1])
+        start_date = datetime.strptime(s_date, "%Y-%m-%d")
+        min_date = start_date
+        e_date = str(guivalues[2])
+        max_date = datetime.strptime(e_date, "%Y-%m-%d")
 
-        for item in search['entries']:
-            print(item['title']);
-            #print(item["published"]);
-            data_article = (item['title'], item["published"], searchlist[i]);       #mysql.connector
-            cursor.execute(add_article, data_article);                              #mysql. connecor executes by using cursor
-            #print(item['link']) #should we add links to the SQL?
+        i = 0
+        sizeofList = len(searchlist)
+        print("Number of keywords used: ", len(searchlist))
+        while i < sizeofList:
+            while min_date != max_date:
+                min1_date = min_date + timedelta(days=1)
+                print("Keyword: ", searchlist[i])
+                print("From:"+min_date.strftime('%Y-%m-%d'))
+                print("To:"+min1_date.strftime('%Y-%m-%d'))
+                search = gn.search(searchlist[i], from_=min_date.strftime('%Y-%m-%d'), to_=min1_date.strftime('%Y-%m-%d'))
 
-            mydb.commit()
+                for item in search['entries']:
+                    print(item['title'])
+                    # print(item["published"]);
+                    data_article = (item['title'], item["published"], searchlist[i], item['link'])
+                    cursor.execute(add_article+add_article1+add_article2, data_article)
+                    # print(item['link']) #should we add links to the SQL?
 
-        min_date = min_date + timedelta(days=1)
-    else: min_date = start_date                         #this is to reset date for this keyword otherwise searchword loop ends due to min_date=max from the first search keyword
-                                                        
-    i += 1                                              #adds count to search the next keyword
+                    mydb.commit()
+
+                min_date = min_date + timedelta(days=1)
+                print("Search Keyword: ", searchlist[i])
+            else: min_date = start_date
+
+            i += 1
+
+
