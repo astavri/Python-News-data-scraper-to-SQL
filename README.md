@@ -17,7 +17,7 @@ The articles details are extracted only from Google News.
 
 **1-create mySQL Database and Table.**
 
-    CREATE DATABASE database123 
+    CREATE DATABASE database123;
     CREATE TABLE table123(
         title VARCHAR (255),
         published VARCHAR (255),
@@ -55,7 +55,7 @@ also check that you have the right # of entries and origin. In this case 4 entri
 
 **5- Check mySQL. Use the data as you wish.**
 
-    SELECT * FROM table123
+    SELECT * FROM table123;
 
 
 
