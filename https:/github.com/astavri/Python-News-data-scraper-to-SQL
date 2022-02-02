@@ -7,28 +7,12 @@ from pygooglenews import GoogleNews
 
 guivalues = ['', '2022-01-25', '2022-01-30', "localhost", "root", 'PASSWORD', 'pooptest1', 'stocks'];
 
+
 while True:
-    sg.theme('Dark2')
-    layout = [
-        [sg.Text('Enter multiple Keywords, comma to separate')],
-        [sg.Text('Keywords', size=(20, 1)), sg.InputText()],
-        [sg.Text('Start Date YYYY-MM-DD: ', size=(20, 1)), sg.InputText(guivalues[1])],
-        [sg.Text('End Date YYYY-MM-DD: ', size=(20, 1)), sg.InputText(guivalues[2])],
-        [sg.Text('Host (usually localhost): ', size=(20, 1)), sg.InputText(guivalues[3])],
-        [sg.Text('User (usually root): ', size=(20, 1)), sg.InputText(guivalues[4])],
-        [sg.Text('mySQL password: ', size=(20, 1)), sg.InputText(guivalues[5])],
-        [sg.Text('Database: ', size=(20, 1)), sg.InputText(guivalues[6])],
-        [sg.Text('Table: ', size=(20, 1)), sg.InputText(guivalues[7])],
-        [sg.Output(size=(70, 15))],
-        [sg.Button('Extract'), sg.Button('Close')]
-    ]
-    window = sg.Window('Python to SQL', layout)
     event, guivalues = window.read()
     if event == 'Close':
         break
-        window.Close()
     if event == 'Extract':
-
         mydb = mysql.connector.connect(
             host= guivalues[3],
             user= guivalues[4],
@@ -38,6 +22,8 @@ while True:
 
         gn = GoogleNews()
         cursor = mydb.cursor()
+        #   db_table = str(input("Table for export :"))
+        #   print(db_table)
         add_article = ("INSERT IGNORE INTO ")
         add_article1 = guivalues[7];
         add_article2 = " (title, published, keyword, link) VALUES (%s, %s, %s, %s)"
@@ -76,7 +62,3 @@ while True:
             else: min_date = start_date
 
             i += 1
-            
-    window.read()
-    window.Close()
-
