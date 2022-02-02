@@ -29,9 +29,9 @@ News articles are extracted from Google news only.
 
 **2-Match it to the mysql.connector script below:**
 
-     add_article2 = " (**title**, **published**, **keyword**, **link**) VALUES (**%s, %s, %s, %s**)"
+     add_article2 = " (title, published, keyword, link) VALUES (%s, %s, %s, %s)"
      
-and that you have the right number of entries and where they are from, in this case 4 entries. 
+also check that you have the right # of entries and origin. In this case 4 entries. 
 
      data_article = (item['title'], item["published"], searchlist[i], item['link'])
      
