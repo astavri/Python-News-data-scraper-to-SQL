@@ -5,11 +5,13 @@ import mysql.connector
 from datetime import datetime, timedelta
 from pygooglenews import GoogleNews
 
-guivalues = ['', '2022-01-25', '2022-01-30', "localhost", "root", 'PASSWORD', 'pooptest1', 'stocks'];
+guivalues = ['', '2022-01-25', '2022-01-30', "localhost", "root", 'PASSWORD', 'YourDATABASE', 'YourTABLE'];
 
 
 while True:
     event, guivalues = window.read()
+    if event in (None, 'Quit'):
+        break
     if event == 'Close':
         break
     if event == 'Extract':
@@ -62,3 +64,4 @@ while True:
             else: min_date = start_date
 
             i += 1
+        else: print("Extract Complete!")
