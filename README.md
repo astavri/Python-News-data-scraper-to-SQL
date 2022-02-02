@@ -7,6 +7,7 @@ All the webscraping backend portion is from pygooglenews, thanks kotartemiy!
 https://github.com/kotartemiy/pygooglenews
 
 ![](Python newscraper to SQL.png)
+![alt text](https://raw.githubusercontent.com/astavri/Python-News-data-scraper-to-SQL/main/Python%20newscraper%20to%20SQL.png)
 
 
 
