@@ -6,6 +6,8 @@ I figure webscraping is common and makes tons of data quickly.
 All the webscraping backend portion is from pygooglenews, thanks kotartemiy!
 https://github.com/kotartemiy/pygooglenews
 
+News articles are extracted from Google news only.
+
 
 ![alt text](https://raw.githubusercontent.com/astavri/Python-News-data-scraper-to-SQL/main/Python_to_%20SQL.png)
 
