@@ -6,6 +6,8 @@ I figure webscraping is common and makes tons of data quickly.
 All the webscraping backend portion is from pygooglenews, thanks kotartemiy!
 https://github.com/kotartemiy/pygooglenews
 
+![](Python newscraper to SQL.png)
+
 
 
 
