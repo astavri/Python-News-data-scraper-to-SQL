@@ -39,8 +39,8 @@ and that you have the right number of entries and where they are from, in this c
   
 
 
-**3-Type in your entries manually each time in the GUI or enter your values in the string 
-    so the GUI recognizes it everytime you run the script**
+**3-Type in your entries manually each time in the GUI. Or enter your values in the string below
+    so the GUI entries are already populated for most things every time you run it**
     
     guivalues = ['', '2022-01-25', '2022-01-30', "localhost", "root", 'PASSWORD', 'database123', 'table123'];
 
