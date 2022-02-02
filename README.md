@@ -3,7 +3,7 @@ WIP
 
 The goal is to export large amounts of data into mySQL where it can be further analyzed.
 I figure webscraping is common and makes tons of data quickly.
-All the webscraping backend portion is from pygooglenews, thanks kotartemiy!
+The webscraping backend is from pygooglenews, thanks kotartemiy!
 https://github.com/kotartemiy/pygooglenews
 
 
