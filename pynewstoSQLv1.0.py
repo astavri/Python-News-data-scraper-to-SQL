@@ -51,6 +51,11 @@ def mysql_insert():
     add_article = "INSERT IGNORE INTO "
     add_article1 = guivalues[7]
     add_article2 = " (title, published, keyword, link) VALUES (%s, %s, %s, %s)"
+    
+def  mysql_flag_insert():
+    cursor.execute(add_article + add_article1 + add_article2, data_article)
+    mydb.commit()
+
 def news_extract():
     key1 = guivalues[0]
     searchlist = key1.split(",")
@@ -71,10 +76,10 @@ def news_extract():
             search = gn.search(searchlist[i], from_=min_date.strftime('%Y-%m-%d'), to_=min1_date.strftime('%Y-%m-%d'))
             for item in search['entries']:
                 print(item['title'])
+                global data_article
+                data_article = (item['title'], item["published"], searchlist[i], item['link'])
                 if mySQL_flag:
-                    data_article = (item['title'], item["published"], searchlist[i], item['link'])
-                    cursor.execute(add_article + add_article1 + add_article2, data_article)
-                    mydb.commit()
+                    mysql_flag_insert()
             min_date = min_date + timedelta(days=1)
             print("Search Keyword: ", searchlist[i])
         else:
@@ -82,6 +87,8 @@ def news_extract():
         i += 1
     else:
         print("Print() Complete!")
+
+
 while True:
     event, guivalues = window.read()
     if event in (None, 'Quit'):
@@ -89,7 +96,7 @@ while True:
     if event == 'Close':
         break
     if event == 'mySQL.enabled':
-        print("mySQL Enabled")
+        print("Extracting to mySQL Enabled")
         mySQL_flag = True
     if event == 'Extract':
         if mySQL_flag:
