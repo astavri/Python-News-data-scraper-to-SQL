@@ -16,7 +16,7 @@ guivalues = [  #default gui entries
     '2022-01-30',
     "localhost",
     "root",
-    '',
+    'password',
     'pooptest1',
     'stocks'
 ]
