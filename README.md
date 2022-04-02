@@ -6,9 +6,18 @@ I figure webscraping is common and makes tons of data quickly.
 The webscraping backend is from pygooglenews, thanks kotartemiy!
 https://github.com/kotartemiy/pygooglenews
 
+**INSTALLATION**
+pip install "setuptools<58"
+pip install -U --no-deps "dateparser>=1.0.0"
+pip install -U --no-deps "feedparser>=6.0.8"
+pip install pygooglenews==0.1.2
+pip install mysql-connector-python
+pip install pysimplegui
+
+Install and setup mySQL
+Create a database and create a table using the parameters listed below
 
 
-The articles details are extracted only from Google News.
 
 
 ![alt text](https://raw.githubusercontent.com/astavri/Python-News-data-scraper-to-SQL/main/Python_to_%20SQL.png)
