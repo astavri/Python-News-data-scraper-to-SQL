@@ -8,13 +8,19 @@ https://github.com/kotartemiy/pygooglenews
 
 **INSTALLATION**
 pip install "setuptools<58"
+
 pip install -U --no-deps "dateparser>=1.0.0"
+
 pip install -U --no-deps "feedparser>=6.0.8"
+
 pip install pygooglenews==0.1.2
+
 pip install mysql-connector-python
+
 pip install pysimplegui
 
 Install and setup mySQL
+
 Create a database and create a table using the parameters listed below
 
 
